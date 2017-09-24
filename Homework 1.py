@@ -2,7 +2,8 @@
 """
 Created on Wed Sep 20 14:50:33 2017
 
-@author: mario
+@author: Mario Bajenting
+@author: Cesar Hernandez
 """
 import turtle
 import math
@@ -30,9 +31,24 @@ def draw_triangle(name,color,length,degrees,x=0,y=0):
     name.penup()
     name.left(90)
     
-def square():
+def draw_square(name, side1, side2, color):
     pass
+    name.goto(0, 0)
+    name.pencolor(color)
+    
+    #turtle movement
+    i = 0
+    while (i < 3):
+        name.forward(side1)
+        name.left(90)
+        name.forward(side2)
+        name.left(90)
+        i += 1
+
+        #now you need something that 
     
 draw_triangle(name = cesar, color = "red", length = 100, degrees = 60)
-    
+draw_square (side1 = 5, side2 = 10, color = 'blue')
+
+
 turtle.exitonclick()
