@@ -30,9 +30,19 @@ def draw_triangle(name,color,length,degrees,x=0,y=0):
     name.penup()
     name.left(90)
     
-def square():
-    pass
-    
+def draw_square(name, color, side1, side2):
+    name.goto(0, 0)
+    name.pencolor(color)
+
+#    turtle movement
+    i = 0
+    while (i < 4):
+        name.forward(side1)
+        name.left(90)
+        name.forward(side2)
+        name.left(90)
+        i += 1
+
 draw_triangle(name = cesar, color = "red", length = 100, degrees = 60)
-    
+draw_squares(name = cesar, color = "blue", side1 = 50, side2 = 150)
 turtle.exitonclick()
