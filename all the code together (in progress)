@@ -1,0 +1,235 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Sep 20 14:50:33 2017
+
+@author: Mario Bajenting MarioBajenting@live.com
+@author: Cesar Hernandez hernandezcesar746@gmail.com
+"""
+
+"""Main Code for the hw"""
+
+import turtle
+import math
+import random
+
+def draw_right_triangle(name, color, length, degrees, x, y):
+    degrees_in_radians = math.radians(degrees)
+    name.pencolor(color)
+
+    name.penup()
+    name.goto(x, y)
+
+    name.pendown()
+
+    name.forward(-length)
+    name.left(degrees)
+    name.forward(length / math.cos(degrees_in_radians))
+    name.right(90 + degrees)
+    name.forward(length * math.tan(degrees_in_radians))
+
+    name.penup()
+    name.left(90)
+
+
+def draw_rectangle(name, color, side1, side2, x, y):
+    name.penup()
+    name.goto(x, y)
+    name.pencolor(color)
+    name.fillcolor(color)
+
+# turtle movement
+    i = 0
+    name.begin_fill()
+    while (i < 2):
+        name.forward(side1)
+        name.left(90)
+        name.forward(side2)
+        name.left(90)
+
+        i += 1
+    name.end_fill()
+    name.penup()
+
+#this function is used to draw/create the fireworks
+def draw_firework(name, size, x, y):
+    name.penup()
+    name.goto(x, y)
+    degrees = 2
+    name.pendown()
+
+    while degrees < 360:
+        r = random.random()
+        g = random.random()
+        b = random.random()
+
+        name.seth(degrees)
+        name.color(r, g, b)
+        name.pensize(random.randint(1, 5))
+        name.forward(random.randint(0, size))
+        name.goto(x, y)
+        degrees += 1
+
+    name.penup()
+
+#this has the fireworks go to random locations and random size 
+def draw_fireworks(name, n, size, min_x, max_x, min_y, max_y):
+    name.penup()
+    name.pendown()
+    while(0 != n):
+        x = random.randint(min_x, max_x)
+        y = random.randint(min_y, max_y)
+        draw_firework(name, size, x, y)
+        n -= 1
+    name.penup()
+"""Start of the code for the Event Handler"""
+
+def crawl():
+    global cesar
+    i = 0
+    cesar.pensize(1)
+    while i < 25:
+        r = random.random()
+        g = random.random()
+        b = random.random()
+        cesar.color(r, g, b)
+        cesar.seth(random.randint(0, 180))
+        cesar.forward(10)
+        i += 1
+
+
+def firework_event_handler():
+    global cesar
+    x = cesar.xcor()
+    y = cesar.ycor()
+    degrees = 0
+    while degrees < 360:
+        cesar.pendown()
+        r = random.random()
+        g = random.random()
+        b = random.random()
+
+        cesar.seth(degrees)
+        cesar.color(r, g, b)
+        cesar.goto(x, y)
+        cesar.pensize(random.randint(1, 5))
+        cesar.forward(random.randint(0, 100))
+        cesar.penup()
+        degrees += 2
+"""End of the code of Event Handler"""
+
+"""Skyline Functions"""
+def draw_rectangles(name, color, width, height):
+    name.penup()
+    name.pencolor(color)
+    name.fillcolor(color)
+
+    i = 0
+    name.begin_fill()
+    while (i < 2):
+        name.forward(width)
+        name.left(90)
+        name.forward(height)
+        name.left(90)
+        i += 1
+    name.end_fill()
+    name.penup()
+
+
+def draw_skyline(name, color):
+    name.penup()
+    name.setx(-window_width / 2)
+    name.sety(-window_height / 2)
+    name.pencolor(color)
+    name.pendown()
+
+    skyline_width = 0
+    while skyline_width <= window_width:
+        width = random.randint(10, int(window_width // 10))
+        height = random.randint(100, int(window_height // 2))
+        draw_rectangles(name, color, width, height)
+        name.forward(width)
+        stripes (cesar, "white", height, width)
+        skyline_width += width
+"""End of the functions for skyline"""
+
+"""Function code  for the stripe filling"""
+def draw_hypotenuse(name, color, width, degrees):
+    name.penup()
+    name.pencolor(color)
+    degrees_in_radians = math.radians(degrees)
+
+    name.pendown()
+
+    name.left(degrees)
+
+    name.forward(width / math.cos(degrees_in_radians))
+
+    name.penup()
+    name.seth(0)
+
+def stripes(name, color, height, width):
+    name.penup()
+    # draws along base
+    x_pos = name.xcor()
+    y_pos = name.ycor()
+    space = 10
+
+    while space < width:
+        draw_hypotenuse(name, color, space, degree)
+        x_pos -= 10
+        name.goto(x_pos, y_pos)
+        space += 10
+
+    base = name.ycor()
+    space = 10
+    name.sety(y_pos + height)
+    y_pos = name.ycor()
+
+    while y_pos > base:
+        draw_hypotenuse(color, space, angle+180)
+        y_pos -= 10
+        name.goto(x_pos, y_pos)
+        space += 10
+"""End of the function for the stripe filling"""
+
+
+
+
+
+
+"""Start of the skyline variables"""
+cesar = turtle.Turtle()
+cesar.pensize(1)
+cesar.speed(0)
+cesar.penup()
+
+
+window_height = random.randint(550, 750)
+window_width = random.randint(500, 750)
+turtle.setup(window_width, window_height)
+
+"""End of the Skyline Code"""
+
+"""Start of the code for the Event Handler"""
+
+turtle.setup(random.randint(495, 745), random.randint(495, 745))
+wn = turtle.Screen()
+wn.bgcolor("light blue")
+
+"""End of the Event Handler Code"""
+
+'''Test Functions'''
+#draw_right_triangle(cesar, "red", 100, 60)
+#draw_firework(100, 0, 0)
+draw_skyline(cesar, "black")
+#draw_fireworks(cesar, 3, 50, -100, 200, 0, 200)
+wn.onkey(crawl, "c")
+wn.onkey(firework_event_handler, "f")
+wn.listen(crawl, "c")
+wn.mainloop()
+
+"""Check the event Handler for some reason the function for those runs even
+    we don't press the keys those functions are assigned to"""
+
+
+turtle.exitonclick()
