@@ -83,18 +83,29 @@ def draw_fireworks(name, n, size, min_x, max_x, min_y, max_y):
     name.penup()
 """Start of the code for the Event Handler"""
 
+#this is the same code as above but the original
 def crawl():
-    global cesar
+    
+    global cesar, window_width, width, height 
     i = 0
+
     cesar.pensize(1)
-    while i < 25:
+
+    while i < 100:
+        
         r = random.random()
         g = random.random()
         b = random.random()
         cesar.color(r, g, b)
         cesar.seth(random.randint(0, 180))
-        cesar.forward(10)
+        cesar.forward(5)
         i += 1
+        
+    width = random.randint(10, int(window_width // 10))
+    height = random.randint(100, int(window_height / 2))
+    cesar.goto(random.randint(-width, width), random.randint(-325, height/2))
+    #cesar.goto(random.ranint(-height, height), random.ranint(-height, height))
+    #cesar.goto(random.randint(-500, 750))
 
 
 def firework_event_handler():
@@ -117,7 +128,8 @@ def firework_event_handler():
         degrees += 2
 """End of the code of Event Handler"""
 
-"""Skyline Functions"""
+"""Skyline Functions
+    draws the skyline"""
 def draw_rectangles(name, color, width, height):
     name.penup()
     name.pencolor(color)
@@ -136,60 +148,169 @@ def draw_rectangles(name, color, width, height):
 
 
 def draw_skyline(name, color):
+    global space
     name.penup()
     name.setx(-window_width / 2)
     name.sety(-window_height / 2)
     name.pencolor(color)
     name.pendown()
 
+    space = 0
     skyline_width = 0
     while skyline_width <= window_width:
         width = random.randint(10, int(window_width // 10))
-        height = random.randint(100, int(window_height // 2))
+        height = random.randint(100, int(window_height / 2))
         draw_rectangles(name, color, width, height)
+        #charm(name, color, width, height, space)
         name.forward(width)
-        stripes (cesar, "white", height, width)
         skyline_width += width
 """End of the functions for skyline"""
 
-"""Function code  for the stripe filling"""
-def draw_hypotenuse(name, color, width, degrees):
+"""Function code  for the stripe filling
+    colors the skyline """
+#def draw_hypotenuse(name, color, width, degrees):
+#    name.penup()
+#    name.pencolor(color)
+#    degrees_in_radians = math.radians(degrees)
+#
+#    name.pendown()
+#
+#    name.left(degrees)
+#
+#    name.forward(width / math.cos(degrees_in_radians))
+#
+#    name.penup()
+#    name.seth(0)
+#
+#def stripes(name, color, height, width):
+#    global degrees, angle
+#    name.penup()
+#    # draws along base
+#    x_pos = name.xcor()
+#    y_pos = name.ycor()
+#    space = 10
+#
+#    while space < width:
+#        draw_hypotenuse(name, color, angle)
+#        x_pos -= 10
+#        name.goto(x_pos, y_pos)
+#        space += 10
+#
+#    base = name.ycor()
+#    space = 10
+#    name.sety(y_pos + height)
+#    y_pos = name.ycor()
+#
+#    while y_pos > base:
+#        draw_hypotenuse(color, space, angle+180)
+#        y_pos -= 10
+#        name.goto(x_pos, y_pos)
+#        space += 10
+def draw_hypotenuse(name, base, height):
+
     name.penup()
-    name.pencolor(color)
-    degrees_in_radians = math.radians(degrees)
+
+
 
     name.pendown()
 
-    name.left(degrees)
+    name.left(135)
 
-    name.forward(width / math.cos(degrees_in_radians))
+    name.forward(math.sqrt(math.pow(base, 2) + math.pow(height, 2)))
+
+
 
     name.penup()
+
     name.seth(0)
 
-def stripes(name, color, height, width):
+
+
+
+
+def charm(name, color, width, height, space):
+
     name.penup()
-    # draws along base
+
+    name.pencolor(color)
+
+
+
     x_pos = name.xcor()
-    y_pos = name.ycor()
-    space = 10
 
-    while space < width:
-        draw_hypotenuse(name, color, space, degree)
-        x_pos -= 10
-        name.goto(x_pos, y_pos)
-        space += 10
+    x_max = x_pos + width
 
-    base = name.ycor()
-    space = 10
-    name.sety(y_pos + height)
     y_pos = name.ycor()
 
-    while y_pos > base:
-        draw_hypotenuse(color, space, angle+180)
-        y_pos -= 10
+    y_max = y_pos + height
+
+    y_cur = 0
+
+
+
+    space_x = space
+
+    space_y = space
+
+
+
+    while (x_pos <= x_max) & (y_cur < y_max):
+
+        draw_hypotenuse(name, space_x, space_y)
+
+        y_cur = name.ycor()
+
+        x_pos += space
+
+        space_x += space
+
+        space_y += space
+
         name.goto(x_pos, y_pos)
-        space += 10
+
+
+
+    while (x_pos <= x_max):
+
+        draw_hypotenuse(name, space_x, space_y)
+
+        x_pos += space
+
+        name.goto(x_pos, y_pos)
+
+
+
+    while (y_cur <= y_max):
+
+        draw_hypotenuse(name, space_x, space_y)
+
+        y_cur = name.ycor()
+
+        y_pos += space
+
+        name.goto(x_pos, y_pos)
+
+
+
+    while space_y > 0:
+
+        draw_hypotenuse(name, space_x, space_y)
+
+        y_pos += space
+
+        name.goto(x_pos, y_pos)
+
+        space_x -= space
+
+        space_y -= space
+        
+
+
+
+
+
+
+
 """End of the function for the stripe filling"""
 
 
@@ -197,7 +318,8 @@ def stripes(name, color, height, width):
 
 
 
-"""Start of the skyline variables"""
+"""Start of the skyline variables
+    sets the window height and width and uses it to create the skyline"""
 cesar = turtle.Turtle()
 cesar.pensize(1)
 cesar.speed(0)
@@ -212,7 +334,7 @@ turtle.setup(window_width, window_height)
 
 """Start of the code for the Event Handler"""
 
-turtle.setup(random.randint(495, 745), random.randint(495, 745))
+turtle.setup(random.randint(500, 745), random.randint(500, 745))
 wn = turtle.Screen()
 wn.bgcolor("light blue")
 
@@ -223,13 +345,14 @@ wn.bgcolor("light blue")
 #draw_firework(100, 0, 0)
 draw_skyline(cesar, "black")
 #draw_fireworks(cesar, 3, 50, -100, 200, 0, 200)
-wn.onkey(crawl, "c")
-wn.onkey(firework_event_handler, "f")
+
+#variables for the event fuctions 
+wn.onkey(crawl, "c") #when the key "c" is pressed the crawl function intitiates
+wn.onkey(firework_event_handler, "f")#when the key "f" is pressed the firework function initiates
 wn.listen(crawl, "c")
+wn.listen(firework_event_handler, "f")
 wn.mainloop()
 
-"""Check the event Handler for some reason the function for those runs even
-    we don't press the keys those functions are assigned to"""
 
 
 turtle.exitonclick()
