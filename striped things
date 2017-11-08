@@ -1,0 +1,63 @@
+import turtle
+import math
+
+'''full functionality except for angles, and negative arguements'''
+
+
+def draw_hypotenuse(name, base, height):
+    name.penup()
+
+    name.pendown()
+    name.left(135)
+    name.forward(math.sqrt(math.pow(base, 2) + math.pow(height, 2)))
+
+    name.penup()
+    name.seth(0)
+
+
+def charm(name, color, width, height, space):
+    name.penup()
+    name.pencolor(color)
+
+    x_pos = name.xcor()
+    x_max = x_pos + width
+    y_pos = name.ycor()
+    y_max = y_pos + height
+    y_cur = 0
+
+    space_x = space
+    space_y = space
+
+    while (x_pos <= x_max) & (y_cur < y_max):
+        draw_hypotenuse(name, space_x, space_y)
+        y_cur = name.ycor()
+        x_pos += space
+        space_x += space
+        space_y += space
+        name.goto(x_pos, y_pos)
+
+    while (x_pos <= x_max):
+        draw_hypotenuse(name, space_x, space_y)
+        x_pos += space
+        name.goto(x_pos, y_pos)
+
+    while (y_cur <= y_max):
+        draw_hypotenuse(name, space_x, space_y)
+        y_cur = zebra.ycor()
+        y_pos += space
+        name.goto(x_pos, y_pos)
+
+    while space_y > 0:
+        draw_hypotenuse(name, space_x, space_y)
+        y_pos += space
+        name.goto(x_pos, y_pos)
+        space_x -= space
+        space_y -= space
+
+
+zebra = turtle.Turtle()
+zebra.speed(0)
+
+charm(zebra, "red", 200, 200, 20)
+
+turtle.exitonclick()

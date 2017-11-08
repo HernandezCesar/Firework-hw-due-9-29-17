@@ -1,0 +1,56 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Sep 27 18:48:11 2017
+
+@author: Cesar Hernandez
+"""
+import random, turtle, math
+
+
+def draw_rectangle (name, color, side1, side2):
+    name.penup()
+    name.pencolor(color)
+    name.fillcolor(color)
+
+# turtle movement
+    i = 0
+    name.begin_fill()
+    while (i < 2):
+        name.forward(side1)
+        name.left(90)
+        name.forward(side2)
+        name.left(90)
+        name.forward(side1)
+
+        i += 1
+    name.end_fill()
+    name.penup()
+
+def draw_skyline (name, color):
+
+    name.penup()
+    name.pencolor(color)
+    name.goto (corner_width, corner_height)
+    name.pendown()
+    
+    i =  0
+    while i < 11:
+        side1 = random.randint(50, 100)
+        side2 = random.randint(50, 500)
+        draw_rectangle(name, color, side1, side2)
+        name.forward (side1)
+        i += 1
+
+"""Main Code"""
+#turtle.TurtleScreen(380, 395)
+corner_width = float(0 - turtle.window_width)
+corner_height = float(0 - turtle.window_height)
+cesar = turtle.Turtle()
+cesar.pensize(1)
+cesar.speed(0)
+
+draw_skyline (cesar, "black")
+print (turtle.window_width())
+print (turtle.window_height())
+
+turtle.exitonclick()

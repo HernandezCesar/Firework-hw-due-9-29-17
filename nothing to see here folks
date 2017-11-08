@@ -1,0 +1,92 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Oct  5 10:24:27 2017
+
+@author: Cesar Hernandez hernandezcesar746@gmail.com
+@author: Ian Speers tsuquakecanonado@gmail.com
+
+code for HW 2: Word Scramble Assignment
+"""
+import random
+dictionary =  {} #just setting up the dictionary for the list of words
+
+#imports the text document
+def text_file (text_file_name):
+    file_resource = open(text_file_name) #replace "filename" with the name of the txt document 
+    
+    for line in file_resource:
+        line = line.strip()# removes end of line character    
+        #print('\nline: ', line)
+        words = line.split()
+        #print('words: ', words)
+        for element in words:
+            #print('word: ', element)
+            characters = []
+            if len(element) <= 3:
+                print(element, end= ' ')
+            elif len(element) > 3:
+                for letter in element:
+                    characters.append(letter) # this is where the program listed all the letter from all the words in the program
+               
+                if characters[-1] in '.,!':
+                    first_letter = characters[0]    #start of the scrambling letters process
+                    punctuation_mark = characters[-1]
+                    last_letter = characters[-2]
+                    
+                    characters.pop(0)
+                    characters.pop(-2)
+                    characters.pop(-1)
+                    random.shuffle(characters)
+                    characters.append(last_letter)
+                    characters.append(punctuation_mark)
+                    characters.insert(0, first_letter)   
+                    
+                else:
+                    first_letter = characters[0]    #start of the scrambling letters process
+                    last_letter = characters[-1]    
+                    characters.pop(0)
+                    characters.pop(-1)
+                    random.shuffle(characters)
+                    characters.append(last_letter)
+                    characters.insert(0, first_letter)
+                    
+                
+                
+#                print('characters: ', characters)#this line and the one below it are used to print and test the output
+#                print('character length: ', len(characters),'\n')
+#                
+                string = ""
+                for l in characters:
+                    string += l
+                print (string, end= ' ')
+                    #random.shuffle for randomizing the indexes
+                    #but before randomizing the lists you need to pop the first and last element but before popping it save it (you could do this by saving it into another list)
+                
+                
+        #do something with line
+        
+    file_resource.close()
+#character("hello")
+
+
+#Greet the user
+#print("Welcome to word scrambler!")
+#asks the user for the name of the text file
+
+#user_input = (input("User please input DoI.txt to get the document:"))
+#print("The scrambled text is below\n")
+
+
+#text_file(user_input)
+text_file("Green Lantern's Oath.txt")
+
+
+#to keep track of the amount of times a word was used utilize the dictionary
+#same with the how it is scrambled, keep track of all of that in the dictionary by using a list inside the dictionary
+#when making the dictionary make it read all the words in the list and then use a counter to choose the index and keep going through the list
+"""
+{
+ 'this' : [tish, this, ...] #when the scrambled version isnt in there add it into the list
+}
+
+"""
